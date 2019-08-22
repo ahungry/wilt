@@ -1,0 +1,61 @@
+#!/bin/awk -f
+
+# Run as such:
+# indent_level=2 /home/mcarter/src/scratch/sh/wilt.awk -vverbose=f -vindent=2 -vfile=t /tmp/wilt.el
+
+function info (s) {
+  if (verbose == "true" || verbose == "t")
+    print s
+}
+
+BEGIN {
+  if (help || ARGC < 2) {
+    print "Usage: wilt [OPTION...] FILE"
+    print
+    print "Main usage arguments: "
+    print
+    print "  -vhelp=t          Show this help."
+    print "  -vverbose=t       Run in verbose mode."
+    print "  -vindent=N        Set indentation level (supersedes ENV setting)."
+    print "  -vfile=t          Print the file name in the resultant output."
+    print
+    print "Environment variables: "
+    print
+    print "  INDENT_LEVEL=N    Set the indentation level (superdeded by flag; default=2)."
+    print
+    print "License: AGPLv3 or later."
+    print
+    print "Report bugs to Matthew Carter <m@ahungry.com> "
+    exit 0
+  }
+  _k="indent_level"
+  FS="[^ ^\t]"
+  indent_level=indent ?
+    indent :
+    ENVIRON[_k] ?
+    ENVIRON[_k] :
+    2
+
+  info("indent level: " indent_level)
+}
+# Just always run this on each line, not just matches.
+{
+  len = length($1)
+  info("len: " len)
+
+  if (len > 0) {
+    i += 1
+    sum += len / indent_level
+  }
+}
+END {
+  if (i > 0) {
+    wilt=sum/i
+    if (file == "t") {
+      print wilt, ARGV[1]
+    } else {
+      print wilt
+    }
+  }
+  info("fin")
+}
