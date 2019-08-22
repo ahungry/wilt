@@ -8,6 +8,10 @@ function info (s) {
     print s
 }
 
+function min(a, b) {
+  return a > b ? a : b
+}
+
 BEGIN {
   if (help || ARGC < 2) {
     print "Usage: wilt [OPTION...] FILE"
@@ -16,12 +20,13 @@ BEGIN {
     print
     print "  -vhelp=t          Show this help."
     print "  -vverbose=t       Run in verbose mode."
-    print "  -vindent=N        Set indentation level (supersedes ENV setting)."
+    print "  -vindent=N        Set indentation level to N (supersedes ENV setting)."
     print "  -vfile=t          Print the file name in the resultant output."
+    print "  -vsmart=t         Attempt to apply some non-WILT 'smart' adjustments for things beyond some standard deviations."
     print
     print "Environment variables: "
     print
-    print "  INDENT_LEVEL=N    Set the indentation level (superdeded by flag; default=2)."
+    print "  INDENT_LEVEL=N    Set the indentation level to N (superdeded by flag; default=2)."
     print
     print "License: AGPLv3 or later."
     print
@@ -37,6 +42,8 @@ BEGIN {
     2
 
   info("indent level: " indent_level)
+  # We should track prev len and a standard deviation incase some file does some insane indent level
+  prev_len=0
 }
 # Just always run this on each line, not just matches.
 {
@@ -45,7 +52,18 @@ BEGIN {
 
   if (len > 0) {
     i += 1
-    sum += len / indent_level
+    # By default, bump it up by the indentation level
+    inc=len/indent_level
+    if (smart == "t") {
+      # But, if it is way too big, just a smaller amount will do (sometimes indentations can be very wide)
+      # This ensures that if it goes beyond some deviation, we cap it at one inc from the last decent indent.
+      if (inc >= prev_len + indent_level) {
+        inc=prev_len + indent_level
+      } else {
+        prev_len=len
+      }
+    }
+    sum += inc
   }
 }
 END {
