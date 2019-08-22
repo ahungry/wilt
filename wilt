@@ -1,4 +1,5 @@
 #!/bin/awk -f
+# -*- mode: awk-mode -*-
 
 # Run as such:
 # indent_level=2 wilt -vverbose=f -vindent=2 -vfile=t /tmp/path/to/your/file
