@@ -1,7 +1,7 @@
 #!/bin/awk -f
 
 # Run as such:
-# indent_level=2 /home/mcarter/src/scratch/sh/wilt.awk -vverbose=f -vindent=2 -vfile=t /tmp/wilt.el
+# indent_level=2 wilt -vverbose=f -vindent=2 -vfile=t /tmp/path/to/your/file
 
 function info (s) {
   if (verbose == "true" || verbose == "t")
