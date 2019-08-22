@@ -38,6 +38,47 @@ License: AGPLv3 or later.
 Report bugs to Matthew Carter <m@ahungry.com>
 ```
 
+When running it on a file or codebase, you can calculate useful
+metrics by combining with other CLI facilities like `find` as such:
+
+```sh
+find . -name '*.c' -exec ~/src/wilt/wilt -vfile=t {} \; \
+  | sort -n
+
+1 ./c/hof.c
+1 ./c/prototypes.c
+1 ./c/rawterm/src/util.c
+1 ./c/rawterm/src/world.c
+1.06667 ./c/list.c
+1.08629 ./mercury/Mercury/cs/hello_init.c
+1.28289 ./docker-benchmarks/main.c
+1.32653 ./c/udp_client.c
+1.34667 ./c/map.c
+1.43103 ./c/rawterm/src/term.c
+1.63158 ./c/rawterm/src/rawterm.c
+2 ./c/udp.c
+2.18317 ./c/rawterm/src/network.c
+2.6672 ./c/editor/main.c
+3.625 ./c/sample.c
+4.0989 ./c/rawterm/src/view.c
+4.39773 ./wm/tinywm.c
+```
+
+So, by running it across all C files in my scratch repository
+(https://github.com/ahungry/scratch) I can easily see where the
+potential problem-points are (tinywm.c has an average indentation
+level of 4 blocks, while hof.c never exceeds a single indentation
+level anywhere in the codebase).
+
+# Caveats
+
+This makes no assumptions for fancy lexing or analysis - if you have
+comment blocks that make use of liberal whitespace in odd ways, this
+isn't going to help you there.
+
+Also, you'll want to tune your indent level appropriate to match that
+of your codebase.
+
 # Copyright
 
 Matthew Carter <m@ahungry.com>
