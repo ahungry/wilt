@@ -15,6 +15,10 @@ It is a much simpler to calculate method (just look at the source of
 value in detecting how much is too much code complexity for a given
 code structure.
 
+The performance is very good as well - to check all files in the Emacs
+code base and check their WILT scores for instance only took 3 seconds
+on an old Lenovo W530 (without any fancy parallelism tricks).
+
 # Installation
 
 Clone the repo, or just copy the `wilt` file in the repo and plop it
