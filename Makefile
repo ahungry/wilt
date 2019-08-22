@@ -1,2 +1,3 @@
 test:
-	sh ./tests
+	-chmod +x ./tests
+	./tests
