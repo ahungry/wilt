@@ -15,6 +15,11 @@ It is a much simpler to calculate method (just look at the source of
 value in detecting how much is too much code complexity for a given
 code structure.
 
+# Installation
+
+Clone the repo, or just copy the `wilt` file in the repo and plop it
+in your `$PATH`.
+
 # Usage
 
 Try out `./wilt` to see the usage guide, similar to this:
