@@ -1,5 +1,5 @@
 #!/bin/sh
-# -*- mode: awk-mode -*-
+# -*- mode: awk; -*-
 # Polyglot launch command to run this with cross platform awk locations.
 "exec" "awk" "-f" "$0" "$@" && 0 {}
 
